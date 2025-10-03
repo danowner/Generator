@@ -54,6 +54,7 @@ with center:
     email_domain = st.text_input("Email domain (e.g., example.com)", value="example.com")
     work_roles_input = st.text_input("Work roles (comma-separated, or blank)")
     camp_port_mappings_input = st.text_input("Camp-port mappings ('Camp:Port', comma-separated, or blank)")
+    starting_employee_id = st.text_input("Starting Employee ID (e.g., 00345, or blank)")
 
 # Parse inputs with defaults
 roster_names = [r.strip() for r in (roster_names_input or '').split(',') if r.strip()] or ['Demo Roster']
@@ -86,6 +87,16 @@ today = datetime(2025, 10, 3)
 five_years_ago = today - timedelta(days=5 * 365)
 adult_start = datetime(1950, 1, 1)
 adult_end = datetime(1990, 1, 1)
+
+# Parse starting Employee ID (if provided, use for sequential generation)
+starting_id = None
+id_length = 0
+if starting_employee_id.strip():
+    try:
+        starting_id = int(starting_employee_id.lstrip('0'))  # Remove leading zeros for calculation
+        id_length = len(starting_employee_id)  # Preserve original length for formatting
+    except ValueError:
+        st.error("Invalid starting Employee ID. It must be numeric (e.g., 00345).")
 
 # Generate button (centered)
 with center:
@@ -125,7 +136,13 @@ with center:
                 last_name = 'USER'
                 email_suffix = random_int(100, 999)
                 username = f"{first_name.lower()}.{last_name.lower()}{email_suffix}@{email_domain}"
-                employee_id = ''  # Blank
+
+                # Employee ID: Sequential if starting ID provided, else blank
+                employee_id = ''
+                if starting_id is not None:
+                    current_id = starting_id + user_index
+                    employee_id = f"{current_id:0{id_length}d}"  # Format with leading zeros
+
                 salutation = random_from_list(salutations)
                 gender = random_from_list(genders)
                 dob = random_date(adult_start, adult_end)
