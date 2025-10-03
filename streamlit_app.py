@@ -78,16 +78,6 @@ if camp_port_mappings_input.strip():
 if first_names_input:
     first_names_list = [name.strip() for name in first_names_input.split(',') if name.strip()]
 
-# System options
-salutations = ['Mr', 'Mrs', 'Ms', 'Miss', 'Dr']
-genders = ['Male', 'Female', 'Not specified']
-
-# Date range setup (current date: October 03, 2025)
-today = datetime(2025, 10, 3)
-five_years_ago = today - timedelta(days=5 * 365)
-adult_start = datetime(1950, 1, 1)
-adult_end = datetime(1990, 1, 1)
-
 # Parse starting Employee ID (if provided, use for sequential generation)
 starting_id = None
 id_length = 0
@@ -97,6 +87,16 @@ if starting_employee_id.strip():
         id_length = len(starting_employee_id)  # Preserve original length for formatting
     except ValueError:
         st.error("Invalid starting Employee ID. It must be numeric (e.g., 00345).")
+
+# System options
+salutations = ['Mr', 'Mrs', 'Ms', 'Miss', 'Dr']
+genders = ['Male', 'Female', 'Not specified']
+
+# Date range setup (current date: October 03, 2025)
+today = datetime(2025, 10, 3)
+five_years_ago = today - timedelta(days=5 * 365)
+adult_start = datetime(1950, 1, 1)
+adult_end = datetime(1990, 1, 1)
 
 # Generate button (centered)
 with center:
@@ -139,7 +139,7 @@ with center:
 
                 # Employee ID: Sequential if starting ID provided, else blank
                 employee_id = ''
-                if starting_id is not None:
+                if starting_id is not none:
                     current_id = starting_id + user_index
                     employee_id = f"{current_id:0{id_length}d}"  # Format with leading zeros
 
@@ -266,7 +266,7 @@ with center:
                 for col, value in enumerate(row_data, 2):
                     cell = ws.cell(row=row_num, column=col, value=value)
                     if isinstance(value, datetime):
-                        cell.number_format = 'DD/MM/YYYY'
+                        cell.number_format = 'DD-MMM-YY'
 
             # Save to BytesIO for download
             output = io.BytesIO()
