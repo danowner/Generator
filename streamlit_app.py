@@ -139,7 +139,7 @@ with center:
 
                 # Employee ID: Sequential if starting ID provided, else blank
                 employee_id = ''
-                if starting_id is not none:
+                if starting_id is not None:
                     current_id = starting_id + user_index
                     employee_id = f"{current_id:0{id_length}d}"  # Format with leading zeros
 
@@ -154,7 +154,7 @@ with center:
                 work_role_01 = random_from_list(work_roles) if work_roles and work_roles[0] != '' else ''
                 work_role_02 = ''  # Blank
                 work_role_03 = ''  # Blank
-                job_title = ''  # Blank
+                job_title = work_role_01  # Match Work Role 01
                 area = random_from_list(areas)
                 employment_type = random_from_list(employment_types)
                 employer = ''  # Blank
